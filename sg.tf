@@ -3,7 +3,7 @@ resource "aws_security_group" "rds_sg" {
   name        = "${var.project_name}-rds-sg"
   description = "Permite acesso ao RDS a partir do EKS"
   # O ideal é associar a uma VPC específica, mas por enquanto vamos manter simples.
-  
+
   # Regra de entrada: permite que qualquer recurso DENTRO da mesma VPC
   # acesse a porta 5432 (PostgreSQL). Futuramente, o cluster EKS estará
   # nesta VPC e poderá se conectar.
