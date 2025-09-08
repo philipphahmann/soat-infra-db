@@ -63,13 +63,13 @@ jobs:
       # Etapa 8: Aplica as mudanças na infraestrutura.
       # Este passo executa o plano gerado anteriormente, criando ou alterando os recursos na AWS.
       # A condição 'if' garante que esta etapa SÓ execute após o merge de um PR na branch 'main'.
-      # - name: Terraform Apply
-      #   if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-      #   run: terraform apply -auto-approve -input=false -var="db_password=${{ secrets.DB_PASSWORD }}"
+      - name: Terraform Apply
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        run: terraform apply -auto-approve -input=false -var="db_password=${{ secrets.DB_PASSWORD }}"
       
       # Etapa 8: DESTRÓI a infraestrutura para limpeza.
       # Executa o comando 'destroy' para remover os recursos na AWS.
       # A condição 'if' garante que esta etapa SÓ execute após o merge de um PR na branch 'main'.
-      - name: Destruir Infraestrutura (Limpeza)
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-        run: terraform destroy -auto-approve -input=false -var="db_password=${{ secrets.DB_PASSWORD }}"
+      # - name: Destruir Infraestrutura (Limpeza)
+      #   if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+      #   run: terraform destroy -auto-approve -input=false -var="db_password=${{ secrets.DB_PASSWORD }}"
