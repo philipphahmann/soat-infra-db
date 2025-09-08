@@ -2,7 +2,7 @@
 resource "aws_db_instance" "soat_rds" {
   allocated_storage      = 20
   engine                 = "postgres"
-  engine_version         = "15.3"
+  engine_version         = "17.6"
   instance_class         = "db.t3.micro"
   db_name                = "soat"
   username               = "admin"
