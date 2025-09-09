@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "db_password_secret" {
-  name = "db-password-secret"
+  name = "db-password-secret-1"
 }
 
 resource "aws_secretsmanager_secret_version" "db_password_secret_version" {
