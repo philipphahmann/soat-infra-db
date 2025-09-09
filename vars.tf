@@ -13,5 +13,11 @@ variable "project_name" {
 variable "db_password" {
   description = "Senha para o banco de dados RDS. Será armazenada no Secrets Manager."
   type        = string
-  sensitive   = true # Marca a variável como sensível para não aparecer nos logs.
+  sensitive   = true
+}
+
+variable "s3_bucket_name" {
+  description = "Nome do bucket S3 para armazenar o estado do Terraform."
+  type        = string
+  default     = "soat-infra-db-tfstate-bucket"
 }
