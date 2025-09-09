@@ -71,11 +71,8 @@ jobs:
       - name: Importar Recursos e Sincronizar Estado
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         run: |
-          # O primeiro argumento é o endereço do recurso no código .tf
-          # O segundo é o ID/Nome real do recurso na AWS
           terraform import aws_s3_bucket.terraform_state soat-infra-db-tfstate-bucket
           terraform import aws_secretsmanager_secret.db_password_secret db-password-secret-2
           terraform import aws_security_group.rds_sg soat-rds-sg
           
-          # Após importar, rode um apply para confirmar que o estado está 100% sincronizado
           terraform apply -auto-approve -input=false -var="db_password=${{ secrets.DB_PASSWORD }}"
