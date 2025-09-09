@@ -1,5 +1,6 @@
 # Cria a instância do banco de dados RDS
 resource "aws_db_instance" "soat_rds" {
+  identifier             = "soat-rds-instance"
   allocated_storage      = 20
   engine                 = "postgres"
   engine_version         = "17.6"
