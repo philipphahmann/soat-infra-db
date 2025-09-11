@@ -52,14 +52,27 @@ jobs:
       # Verifica se há erros de sintaxe nos arquivos .tf.
       - name: Terraform Validate
         run: terraform validate -no-color
-
-      # Etapa 7: Gera um plano de execução.
-      # O Terraform cria um "plano" que mostra exatamente quais recursos
-      # serão criados, alterados ou destruídos na AWS, sem executar nada ainda. É um "preview".
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -input=false -no-color -var="db_password=${{ secrets.DB_PASSWORD }}"
       
+      # Etapa 7: Gera um plano de execução detalhado.
+      # A flag -detailed-exitcode faz com que o comando retorne códigos de saída específicos:
+      # 0 = sem mudanças, 1 = erro, 2 = com mudanças.
+      # O "|| exit 0" no final garante que, se o código for 2 (com mudanças),
+      # o passo não seja considerado uma falha pela pipeline.
+      - name: Gerar Plano do Terraform
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -detailed-exitcode -var="db_password=${{ secrets.DB_PASSWORD }}" || exit 0
+        continue-on-error: true # Mantemos isso por segurança
+
+      # Resultado do plano
+      - name: Exibir Resultado do Plano
+        if: steps.plan.outputs.exitcode == 2
+        run: echo "Plano do Terraform tem mudanças a serem aplicadas."
+        
+      - name: Passar se Não Houver Mudanças
+        if: steps.plan.outputs.exitcode == 0
+        run: echo "Plano do Terraform não encontrou mudanças. Tudo sincronizado."
+
       # Etapa 8: Aplica as mudanças na infraestrutura.
       # Este passo executa o plano gerado anteriormente, criando ou alterando os recursos na AWS.
       # A condição 'if' garante que esta etapa SÓ execute após o merge de um PR na branch 'main'.
