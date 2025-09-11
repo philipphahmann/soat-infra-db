@@ -1,42 +1,46 @@
 # Infraestrutura do Banco de Dados - Tech Challenge SOAT
 
-Este repositório é responsável por provisionar e gerenciar a infraestrutura do banco de dados para o projeto Tech Challenge da Pós-Graduação em Arquitetura de Software.
+Este repositório é responsável por provisionar e gerenciar a infraestrutura do banco de dados para o projeto, utilizando **Terraform** como ferramenta de Infraestrutura como Código (IaC).
 
-O projeto utiliza **Terraform** para automação da infraestrutura como código (IaC) e **GitHub Actions** para o fluxo de Integração e Entrega Contínua (CI/CD).
+A automação de deploy é gerenciada pelo **GitHub Actions**, garantindo um processo de CI/CD seguro e auditável.
 
-## 🚀 Recursos Gerenciados
+## 🚀 Arquitetura e Recursos Provisionados
 
-Este repositório provisiona os seguintes recursos na AWS:
+Este projeto provisiona os seguintes recursos na AWS:
 
-* **AWS RDS:** Uma instância de banco de dados PostgreSQL gerenciada.
-* **AWS Security Group:** Regras de firewall para controlar o acesso à instância RDS.
-* **AWS Secrets Manager:** Um segredo para armazenar de forma segura a senha do banco de dados.
+* **AWS RDS:** Uma instância de banco de dados PostgreSQL (`db.t3.micro`) gerenciada, com o nome de instância `soat-rds-instance`.
+* **AWS Secrets Manager:** Um segredo chamado `db-password-secret-2` para armazenar de forma segura a senha do banco de dados, desacoplando-a do código.
+* **AWS S3 Bucket:** Um bucket privado (`soat-infra-db-tfstate-bucket`) com versionamento e criptografia ativados, destinado a armazenar o arquivo de estado do Terraform (`terraform.tfstate`).
+* **AWS Security Group:** Um grupo de segurança (`soat-rds-sg`) que atua como um firewall, liberando o acesso à porta `5432` (PostgreSQL) para permitir a conexão futura de outras aplicações, como a do Kubernetes.
 
-## ✅ Pré-requisitos
+## ⚙️ Gerenciamento de Estado (State Management)
 
-Para que a automação funcione, é necessário configurar os seguintes segredos no repositório do GitHub:
+Para garantir a persistência, segurança e colaboração, o estado do Terraform é gerenciado remotamente.
 
-1.  Acesse `Settings` > `Secrets and variables` > `Actions`.
-2.  Adicione os seguintes `Repository secrets`:
-    * `AWS_ACCESS_KEY_ID`: Sua chave de acesso da AWS.
-    * `AWS_SECRET_ACCESS_KEY`: Sua chave secreta da AWS.
-    * `AWS_SESSION_TOKEN`: O token de sessão temporário (necessário para o ambiente AWS Academy).
-    * `DB_PASSWORD`: A senha que você deseja configurar para o usuário principal do banco de dados.
+* **Backend:** O arquivo `terraform.tfstate` é armazenado em um **AWS S3 Bucket**.
+* **Caminho do Estado:** O arquivo de estado está localizado no caminho `database/terraform.tfstate` dentro do bucket.
 
-## ⚙️ Fluxo de CI/CD
+## 🔄 Fluxo de CI/CD com GitHub Actions
 
-O fluxo de trabalho foi desenhado para ser seguro e garantir que a infraestrutura só seja alterada de forma controlada, seguindo os requisitos do projeto de ter branches protegidas.
+O deploy da infraestrutura é totalmente automatizado e segue um fluxo seguro, conforme definido em `.github/workflows/terraform.yml`:
 
-1.  **Branch `dev`:** Todo novo desenvolvimento ou alteração deve ser enviado para a branch `dev`. Um `push` nesta branch irá disparar a pipeline para validar o código e gerar um `terraform plan` (um preview das alterações), mas não aplicará nenhuma mudança.
+1.  **Branch `dev`:** Todo novo desenvolvimento deve ser enviado para a branch `dev`. Um `push` nesta branch dispara a pipeline para executar validações (`fmt`, `validate`) e gerar um `terraform plan`, garantindo a integridade do código sem aplicar nenhuma mudança.
+2.  **Pull Request para `main`:** Para aplicar as mudanças, um Pull Request (PR) deve ser aberto da `dev` para a `main`. A pipeline roda novamente, exibindo o plano no PR para revisão. A branch `main` é protegida e exige a passagem dos status checks.
+3.  **Merge na `main`:** O `terraform apply`, que efetivamente cria ou altera a infraestrutura na AWS, é executado **automaticamente e somente** após o PR ser aprovado e o merge ser concluído na branch `main`.
 
-2.  **Pull Request para a `main`:** Para aplicar as mudanças, um Pull Request (PR) deve ser aberto da branch `dev` para a `main`. A pipeline irá rodar novamente e exibir o `terraform plan` no PR para revisão da equipe.
+## ✅ Pré-requisitos para Execução
 
-3.  **Merge na `main`:** O `terraform apply` (que efetivamente altera a infraestrutura na AWS) é executado **automaticamente e somente** após o PR ser aprovado e o merge ser concluído na branch `main`.
+Para que a pipeline de CI/CD funcione, é necessário configurar os seguintes segredos no repositório do GitHub (`Settings` > `Secrets and variables` > `Actions`):
+
+* `AWS_ACCESS_KEY_ID`: A chave de acesso da sua conta AWS.
+* `AWS_SECRET_ACCESS_KEY`: A chave secreta da sua conta AWS.
+* `AWS_SESSION_TOKEN`: O token de sessão temporário (obrigatório para o ambiente AWS Academy).
+* `DB_PASSWORD`: A senha desejada para o usuário `soatadmin` do banco de dados.
 
 ## 📜 Outputs do Terraform
 
-Após a execução bem-sucedida, este projeto Terraform expõe as seguintes saídas, que podem ser usadas para configurar outros serviços (como o cluster Kubernetes):
+Após a aplicação, este módulo Terraform expõe as seguintes saídas (`outputs.tf`), que são essenciais para conectar outras partes da infraestrutura (como o Kubernetes) a este banco de dados:
 
-* `rds_endpoint`: O endereço de conexão (hostname) do banco de dados RDS.
-* `rds_sg_id`: O ID do Security Group criado para o RDS.
-* `db_password_secret_arn`: O ARN (Amazon Resource Name) do segredo criado no Secrets Manager.
+* `rds_endpoint`: O endereço de conexão (hostname e porta) do banco de dados RDS.
+* `rds_sg_id`: O ID do Security Group criado, útil para configurar regras de firewall em outros serviços.
+* `db_password_secret_arn`: O ARN (Amazon Resource Name) do segredo no Secrets Manager, usado para permitir que aplicações leiam a senha de forma segura.
