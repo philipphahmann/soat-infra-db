@@ -28,6 +28,15 @@ O deploy da infraestrutura é totalmente automatizado e segue um fluxo seguro, c
 2.  **Pull Request para `main`:** Para aplicar as mudanças, um Pull Request (PR) deve ser aberto da `dev` para a `main`. A pipeline roda novamente, exibindo o plano no PR para revisão. A branch `main` é protegida e exige a passagem dos status checks.
 3.  **Merge na `main`:** O `terraform apply`, que efetivamente cria ou altera a infraestrutura na AWS, é executado **automaticamente e somente** após o PR ser aprovado e o merge ser concluído na branch `main`.
 
+## 🛡️ Segurança e Proteção da Branch `main`
+
+Para garantir a integridade e a estabilidade da infraestrutura, a branch `main` é protegida com as seguintes regras:
+
+* **Não permitir commit direto:** Todos os commits devem ser feitos em branches secundárias.
+* **Permitir merge somente via Pull Request:** As alterações só podem ser integradas à `main` através de um PR.
+* **Permitir merge somente com status OK das actions:** O PR só pode ser mesclado se a pipeline de CI/CD (`terraform plan`, `validate`, etc.) for executada com sucesso.
+* **Permitir merge somente após aprovação:** É necessária a aprovação de pelo menos um revisor no Pull Request.
+
 ## ✅ Pré-requisitos para Execução
 
 Para que a pipeline de CI/CD funcione, é necessário configurar os seguintes segredos no repositório do GitHub (`Settings` > `Secrets and variables` > `Actions`):
