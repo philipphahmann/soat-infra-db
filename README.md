@@ -17,7 +17,7 @@ Este projeto provisiona os seguintes recursos na AWS:
 
 O esquema do banco de dados é gerenciado pela aplicação Spring Boot através do Flyway. A documentação detalhada sobre a escolha do banco, modelagem de dados e sugestões de melhoria pode ser encontrada no seguinte arquivo:
 
-* **[📄 Documentação Completa do Banco de Dados (DATABASE.md)](./docs/DATABASE.md)**
+* **[📄 Documentação Completa do Banco de Dados](./docs/DATABASE.md)**
 
 ## ⚙️ Gerenciamento de Estado (State Management)
 
