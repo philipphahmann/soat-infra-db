@@ -18,7 +18,7 @@ resource "aws_db_instance" "soat_rds" {
   instance_class    = "db.t3.micro"
   db_name           = "soat"
   username          = "soatadmin"
-  password          = aws_secretsmanager_secret_version.db_password_secret_version.secret_string
+  password          = var.db_password
 
   # Associa a instância ao grupo de subnets e ao security group corretos.
   db_subnet_group_name   = aws_db_subnet_group.soat_subnet_group.name
