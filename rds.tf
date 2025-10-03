@@ -27,5 +27,8 @@ resource "aws_db_instance" "soat_rds" {
   # Importante: para ser acessível apenas de dentro da VPC, e não da internet.
   publicly_accessible = false
 
+  # Habilita o Performance Insights para monitoramento avançado
+  performance_insights_enabled = true
+
   skip_final_snapshot = true
 }
