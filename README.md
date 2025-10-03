@@ -9,8 +9,7 @@ A automação de deploy é gerenciada pelo **GitHub Actions**, garantindo um pro
 Este projeto provisiona os seguintes recursos na AWS:
 
 * **AWS RDS:** Uma instância de banco de dados PostgreSQL (`db.t3.micro`) gerenciada, com o nome de instância `soat-rds-instance`.
-* **AWS Secrets Manager:** Um segredo chamado `db-password-secret-2` para armazenar de forma segura a senha do banco de dados, desacoplando-a do código.
-* **AWS S3 Bucket:** Um bucket privado (`soat-infra-db-tfstate-bucket`) com versionamento e criptografia ativados, destinado a armazenar o arquivo de estado do Terraform (`terraform.tfstate`).
+* **AWS Secrets Manager:** Um segredo chamado `secret/rds-database` para armazenar de forma segura a senha, a url de acesso e o usuário do banco de dados, desacoplando-a do código.
 * **AWS Security Group:** Um grupo de segurança (`soat-rds-sg`) que atua como um firewall, liberando o acesso à porta `5432` (PostgreSQL) para permitir a conexão futura de outras aplicações, como a do Kubernetes.
 
 ## 🏛️ Documentação do Banco de Dados
@@ -23,7 +22,7 @@ O esquema do banco de dados é gerenciado pela aplicação Spring Boot através 
 
 Para garantir a persistência, segurança e colaboração, o estado do Terraform é gerenciado remotamente.
 
-* **Backend:** O arquivo `terraform.tfstate` é armazenado em um **AWS S3 Bucket**.
+* **Backend:** O arquivo `terraform.tfstate` é armazenado em um **AWS S3 Bucket**, chamado `soat-tfstate-bucket`.
 * **Caminho do Estado:** O arquivo de estado está localizado no caminho `database/terraform.tfstate` dentro do bucket.
 
 ## 🔄 Fluxo de CI/CD com GitHub Actions

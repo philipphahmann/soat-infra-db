@@ -15,9 +15,3 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
-
-variable "s3_bucket_name" {
-  description = "Nome do bucket S3 para armazenar o estado do Terraform."
-  type        = string
-  default     = "soat-infra-db-tfstate-bucket"
-}
