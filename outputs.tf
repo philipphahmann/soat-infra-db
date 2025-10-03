@@ -8,7 +8,7 @@ output "rds_sg_id" {
   value       = aws_security_group.rds_sg.id
 }
 
-output "db_password_secret_arn" {
+output "rds_database_secret_container_arn" {
   description = "O ARN do segredo no Secrets Manager."
-  value       = aws_secretsmanager_secret.db_password_secret.arn
+  value       = aws_secretsmanager_secret.rds_database_secret_container.arn
 }

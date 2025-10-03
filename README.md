@@ -13,6 +13,12 @@ Este projeto provisiona os seguintes recursos na AWS:
 * **AWS S3 Bucket:** Um bucket privado (`soat-infra-db-tfstate-bucket`) com versionamento e criptografia ativados, destinado a armazenar o arquivo de estado do Terraform (`terraform.tfstate`).
 * **AWS Security Group:** Um grupo de segurança (`soat-rds-sg`) que atua como um firewall, liberando o acesso à porta `5432` (PostgreSQL) para permitir a conexão futura de outras aplicações, como a do Kubernetes.
 
+## 🏛️ Documentação do Banco de Dados
+
+O esquema do banco de dados é gerenciado pela aplicação Spring Boot através do Flyway. A documentação detalhada sobre a escolha do banco, modelagem de dados e sugestões de melhoria pode ser encontrada no seguinte arquivo:
+
+* **[📄 Documentação Completa do Banco de Dados](./docs/DATABASE.md)**
+
 ## ⚙️ Gerenciamento de Estado (State Management)
 
 Para garantir a persistência, segurança e colaboração, o estado do Terraform é gerenciado remotamente.
@@ -52,4 +58,4 @@ Após a aplicação, este módulo Terraform expõe as seguintes saídas (`output
 
 * `rds_endpoint`: O endereço de conexão (hostname e porta) do banco de dados RDS.
 * `rds_sg_id`: O ID do Security Group criado, útil para configurar regras de firewall em outros serviços.
-* `db_password_secret_arn`: O ARN (Amazon Resource Name) do segredo no Secrets Manager, usado para permitir que aplicações leiam a senha de forma segura.
+* `rds_database_secret_container_arn`: O ARN (Amazon Resource Name) do segredo no Secrets Manager, usado para permitir que aplicações leiam a senha de forma segura.
