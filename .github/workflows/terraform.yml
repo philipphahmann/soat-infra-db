@@ -11,8 +11,6 @@ on:
 
   workflow_dispatch:
 
-  workflow_dispatch:
-
 jobs:
   # -----------------------------------------------------------------
   # JOB 1: VALIDATE - Roda primeiro e valida a qualidade do código.
@@ -29,7 +27,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Inicializa o Terraform
-        run: terraform init -backend=false # Não precisa de credenciais para validar
+        run: terraform init -backend=false
 
       - name: Verifica a formatação do código (fmt)
         run: terraform fmt -check
