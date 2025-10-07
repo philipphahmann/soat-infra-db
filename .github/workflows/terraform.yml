@@ -11,6 +11,8 @@ on:
 
   workflow_dispatch:
 
+  workflow_dispatch:
+
 jobs:
   # -----------------------------------------------------------------
   # JOB 1: VALIDATE - Roda primeiro e valida a qualidade do código.
