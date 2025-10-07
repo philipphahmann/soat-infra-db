@@ -18,7 +18,7 @@ jobs:
   # JOB 1: VALIDATE - Roda primeiro e valida a qualidade do código.
   # -----------------------------------------------------------------
   validate:
-    name: 'Validar Código Terraform'
+    name: 'Validar Código Terraform' 
     runs-on: ubuntu-latest
     
     steps:
