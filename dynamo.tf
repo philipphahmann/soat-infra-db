@@ -1,12 +1,12 @@
 resource "aws_dynamodb_table" "auth_cache" {
   # O nome final será algo como "soat-auth-tokens"
-  name           = "${var.project_name}-ms-auth"
-  
+  name = "${var.project_name}-ms-auth"
+
   # PAY_PER_REQUEST é ideal para cargas variáveis e evita custos fixos de provisionamento
-  billing_mode   = "PAY_PER_REQUEST"
-  
+  billing_mode = "PAY_PER_REQUEST"
+
   # Definimos a chave primária (Partition Key)
-  hash_key       = "cpf"
+  hash_key = "cpf"
 
   attribute {
     name = "cpf"
