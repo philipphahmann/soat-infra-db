@@ -5,7 +5,7 @@ data "terraform_remote_state" "network" {
   config = {
     # ATENÇÃO: Use o mesmo bucket do seu backend de rede.
     # Se você usou um nome diferente para o bucket da infra-base, ajuste aqui.
-    bucket = "soat-tfstate-bucket"
+    bucket = "soat-ms-tfstate-bucket-1"
 
     # O "key" deve apontar para o arquivo de estado da sua infra de REDE.
     # Ajuste se você usou um caminho diferente.

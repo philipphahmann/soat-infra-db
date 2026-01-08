@@ -10,8 +10,31 @@ resource "aws_db_subnet_group" "soat_subnet_group" {
 }
 
 # Cria a instância do banco de dados RDS
-resource "aws_db_instance" "soat_rds" {
-  identifier        = "soat-rds-instance"
+resource "aws_db_instance" "soat_rds_ms_products" {
+  identifier        = "soat-rds-instance-ms-products"
+  allocated_storage = 20
+  engine            = "postgres"
+  engine_version    = "17.6"
+  instance_class    = "db.t3.micro"
+  db_name           = "soat"
+  username          = "soatadmin"
+  password          = var.db_password
+
+  # Associa a instância ao grupo de subnets e ao security group corretos.
+  db_subnet_group_name   = aws_db_subnet_group.soat_subnet_group.name
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+
+  # Importante: para ser acessível apenas de dentro da VPC, e não da internet.
+  publicly_accessible = false
+
+  # Habilita o Performance Insights para monitoramento avançado
+  performance_insights_enabled = true
+
+  skip_final_snapshot = true
+}
+
+resource "aws_db_instance" "soat_rds_ms_customers" {
+  identifier        = "soat-rds-instance-ms-customers"
   allocated_storage = 20
   engine            = "postgres"
   engine_version    = "17.6"
