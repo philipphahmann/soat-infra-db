@@ -1,6 +1,6 @@
 output "rds_endpoint" {
   description = "O endereço de conexão (endpoint) do banco de dados RDS."
-  value       = aws_db_instance.soat_rds.endpoint
+  value       = aws_db_instance.soat_rds_ms_products.endpoint
 }
 
 output "rds_sg_id" {

@@ -10,8 +10,8 @@ resource "aws_secretsmanager_secret_version" "rds_database_secret" {
   # A função jsonencode() cria a estrutura de chave-valor que o Spring Cloud AWS espera.
   # Ela usa os atributos do recurso RDS e as variáveis para montar a string dinamicamente.
   secret_string = jsonencode({
-    DB_URL      = "jdbc:postgresql://${aws_db_instance.soat_rds.address}:${aws_db_instance.soat_rds.port}/${aws_db_instance.soat_rds.db_name}"
-    DB_USER     = aws_db_instance.soat_rds.username
-    DB_PASSWORD = aws_db_instance.soat_rds.password
+    DB_URL      = "jdbc:postgresql://${aws_db_instance.soat_rds_ms_products.address}:${aws_db_instance.soat_rds_ms_products.port}/${aws_db_instance.soat_rds_ms_products.db_name}"
+    DB_USER     = aws_db_instance.soat_rds_ms_products.username
+    DB_PASSWORD = aws_db_instance.soat_rds_ms_products.password
   })
 }
