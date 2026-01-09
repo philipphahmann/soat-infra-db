@@ -12,7 +12,7 @@ data "terraform_remote_state" "network" {
 resource "aws_db_subnet_group" "soat_subnet_group" {
   name       = "terraform-20260108123035079700000001"
   subnet_ids = data.terraform_remote_state.network.outputs.private_subnet_ids
-  tags = { Name = "soat-rds-subnet-group" }
+  tags       = { Name = "soat-rds-subnet-group" }
 }
 
 resource "aws_security_group" "rds_sg" {
