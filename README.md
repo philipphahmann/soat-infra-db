@@ -22,7 +22,7 @@ Este projeto adota uma arquitetura modular e provisiona os seguintes recursos na
 
 A arquitetura de dados do projeto adota uma abordagem híbrida, combinando a robustez de um banco relacional com a velocidade de um banco NoSQL. As especificações técnicas, modelagem e justificativas estão detalhadas nos arquivos abaixo:
 
-### PostgreSQL (Relacional)
+### PostgreSQL (SQL)
 Responsável pelos dados transacionais e de negócio (Clientes, Produtos, Pedidos e Pagamentos), com esquema gerenciado via Flyway.
 * **[📄 Documentação do Banco Relacional (PostgreSQL)](./docs/SQL_Database.md)**
 
