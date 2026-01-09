@@ -24,7 +24,7 @@ A arquitetura de dados do projeto adota uma abordagem híbrida, combinando a rob
 
 ### PostgreSQL (SQL)
 Responsável pelos dados transacionais e de negócio (Clientes, Produtos, Pedidos e Pagamentos), com esquema gerenciado via Flyway.
-* **[📄 Documentação do Banco Relacional (PostgreSQL)](./docs/SQL_Database.md)**
+* **[📄 Documentação do Banco SQL (PostgreSQL)](./docs/SQL_Database.md)**
 
 ### Amazon DynamoDB (NoSQL)
 Responsável pelo cache de autenticação e gerenciamento de sessões de usuários (JWT), utilizando recursos nativos de TTL para alta performance.
