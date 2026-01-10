@@ -4,7 +4,6 @@ resource "aws_db_instance" "this" {
   engine            = "postgres"
   engine_version    = "17.6"
   instance_class    = var.instance_class
-  db_name           = "soat"
   username          = "soatadmin"
   password          = var.db_password
 

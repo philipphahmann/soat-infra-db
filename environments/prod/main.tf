@@ -39,6 +39,7 @@ module "rds_products" {
   source = "../../modules/rds"
 
   identifier             = "soat-rds-instance-ms-products"
+  db_name                = "soat"
   db_password            = var.db_password
   db_subnet_group_name   = aws_db_subnet_group.soat_subnet_group.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
@@ -48,6 +49,7 @@ module "rds_customers" {
   source = "../../modules/rds"
 
   identifier             = "soat-rds-instance-ms-customers"
+  db_name                = "soat"
   db_password            = var.db_password
   db_subnet_group_name   = aws_db_subnet_group.soat_subnet_group.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
@@ -57,6 +59,7 @@ module "rds_orders" {
   source = "../../modules/rds"
 
   identifier             = "soat-rds-instance-ms-orders"
+  db_name                = "orders"
   db_password            = var.db_password
   db_subnet_group_name   = aws_db_subnet_group.soat_subnet_group.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
@@ -66,6 +69,7 @@ module "rds_payments" {
   source = "../../modules/rds"
 
   identifier             = "soat-rds-instance-ms-payments"
+  db_name                = "payments"
   db_password            = var.db_password
   db_subnet_group_name   = aws_db_subnet_group.soat_subnet_group.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
